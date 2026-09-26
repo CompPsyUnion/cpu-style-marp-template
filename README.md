@@ -12,15 +12,29 @@ That is the [skills CLI](https://github.com/vercel-labs/skills) — it symlinks 
 
 ## Repository layout
 
-```text
-themes/cpu.css                     the theme — all styles live in this one file
-template.md                        sample deck, one page per slide type, comments explain each
-docs/usage.md                      usage guide
-.agents/skills/cpu-marp/SKILL.md   agent skill body (cross-agent location)
-.claude/skills -> ../.agents/skills  symlink so Claude Code picks it up in-repo
-assets/poster.png                  placeholder poster for the side-image demo
-.vscode/                           Marp extension theme registration + cSpell dictionary
-.editorconfig / .markdownlint.json documentation standards
+```bash
+tree -a --dirsfirst -I .git
+.
+├── .agents
+│   └── skills
+│       └── cpu-marp
+│           └── SKILL.md             # agent skill body, cross-agent location
+├── .claude
+│   └── skills -> ../.agents/skills  # symlink so Claude Code picks it up in-repo
+├── .vscode
+│   └── settings.json                # Marp theme registration + cSpell dictionary
+├── assets
+│   └── poster.png                   # placeholder poster for the side-image demo
+├── docs
+│   └── usage.md                     # usage guide
+├── themes
+│   └── cpu.css                      # the theme — all styles live in this one file
+├── .editorconfig                    # documentation standards
+├── .markdownlint.json               # (paired with the line above)
+├── .gitignore
+├── LICENSE
+├── README.md
+└── template.md                      # sample deck, one page per slide type
 ```
 
 ## How the theme is organized
