@@ -75,11 +75,11 @@ Delete the whole `<style>…</style>` block at the end of the file, add `theme: 
 
 ## Letting Claude write it
 
-The repo ships an agent skill. Copy it into your skills directory (either one):
+The repo ships an agent skill. Install it with the [skills CLI](https://github.com/vercel-labs/skills):
 
 ```bash
-cp -r .claude/skills/cpu-marp ~/.claude/skills/        # available everywhere
-cp -r .claude/skills/cpu-marp <project>/.claude/skills/   # this project only
+npx skills add CompPsyUnion/cpu-style-marp-template          # current project
+npx skills add CompPsyUnion/cpu-style-marp-template -g       # all your projects
 ```
 
-After that, just say "make a CPU deck with the template".
+It symlinks the skill into every agent it detects — Claude Code, Cursor, Codex and friends. After that, just say "make a CPU deck with the template".

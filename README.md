@@ -2,7 +2,13 @@
 
 The Marp slide theme for CPU (Computer Psycho Union) at UNNC.
 
-To make slides, read [docs/usage.md](docs/usage.md); to let Claude do it, install `.claude/skills/cpu-marp/`. This README is about how the theme itself is put together, for whoever maintains it.
+To make slides, read [docs/usage.md](docs/usage.md). To let an agent do it, install the skill:
+
+```bash
+npx skills add CompPsyUnion/cpu-style-marp-template
+```
+
+That is the [skills CLI](https://github.com/vercel-labs/skills) — it symlinks the skill into every agent it detects (Claude Code, Cursor, Codex, …). Add `-g` for all projects, `-a claude` to target one agent, `--copy` if you prefer real files over symlinks. This README is about how the theme itself is put together, for whoever maintains it.
 
 ## Repository layout
 
@@ -10,7 +16,8 @@ To make slides, read [docs/usage.md](docs/usage.md); to let Claude do it, instal
 themes/cpu.css                     the theme — all styles live in this one file
 template.md                        sample deck, one page per slide type, comments explain each
 docs/usage.md                      usage guide
-.claude/skills/cpu-marp/SKILL.md   agent skill
+.agents/skills/cpu-marp/SKILL.md   agent skill body (cross-agent location)
+.claude/skills -> ../.agents/skills  symlink so Claude Code picks it up in-repo
 assets/poster.png                  placeholder poster for the side-image demo
 .vscode/                           Marp extension theme registration + cSpell dictionary
 .editorconfig / .markdownlint.json documentation standards

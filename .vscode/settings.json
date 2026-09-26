@@ -6,8 +6,11 @@
     "marpit",
     "Ningbo",
     "Noto",
+    "Recolors",
     "Tesema",
     "UNNC"
   ],
-  "markdown.marp.themes": ["themes/cpu.css"]
+  "markdown.marp.themes": [
+    "themes/cpu.css"
+  ]
 }
