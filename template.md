@@ -5,14 +5,17 @@ paginate: true
 ---
 
 <!--
-   CPU Marp 模板示例 · 每页开头的注释即该页使用说明（也是演讲者备注）
-   frontmatter 中 theme: cpu 必须保留；VS Code 需注册主题（本仓库 .vscode/ 已配好）。
-   全套仅封面页用 h1，其余页面一律 h2 起；标题保持单行；不建议使用 emoji。
+   CPU Marp template sample · the comment at the top of each page explains how
+   that page is written (it doubles as a presenter note).
+   Usage guide: docs/usage.md. Keep theme: cpu in the frontmatter.
+   Only the cover uses h1; every other page starts at h2. Titles stay on one
+   line. No emoji.
 -->
 
 <!-- _class: lead -->
-<!-- 封面页：h1 主标题（黄色横幅内）· h2 副标题 · p 出席人（<br> 分行）+ p 日期 ·
-     h3 右下描边 mega 字 · h4 右下实心 mega 字（可省略其一） -->
+<!-- Cover: # main title (inside the yellow band) · ## subtitle · p speakers
+     (<br> per line) + p date · ###/#### mega words bottom-right (outlined /
+     solid; either can be dropped) -->
 
 # Presentation Title Here
 
@@ -29,8 +32,8 @@ Computer Psycho Union · 1 January 2027
 ---
 
 <!-- _class: agenda -->
-<!-- 议程页：有序列表 2–6 项（不超过 9 项，编号 01–09 自动生成，首行自动黄色高亮）；
-     斜体 *text* 渲染为灰色副文本 -->
+<!-- Agenda: ordered list of 2–6 items (9 at most; numbers 01–09 are generated,
+     first row auto-highlighted); *italics* render as gray secondary text -->
 
 ## What we'll cover today
 
@@ -41,8 +44,9 @@ Computer Psycho Union · 1 January 2027
 
 ---
 
-<!-- 普通内容页（无需 class）：h2 标题自动带虚线与 </> 符号 · 列表为黄色方块标记 ·
-     **粗体**作引导词 · 嵌套列表更小更浅 -->
+<!-- Regular content page (no class): the h2 title gets its rule and </> ·
+     lists get yellow square markers · **bold** as the lead-in · nested lists
+     are smaller and lighter -->
 
 ## 01 · Regular content slide
 
@@ -54,8 +58,9 @@ Computer Psycho Union · 1 January 2027
 ---
 
 <!-- _class: roster -->
-<!-- 名单页：表格黄头黑框、隔行浅黄；首列固定 350px（适合 名字|角色|职责 三列）·
-     单元格内 **名字**<br>`邮箱` · *学号* 的组合 -->
+<!-- Roster page: yellow-headed table with black borders, zebra rows; the first
+     column is fixed at 350px (fits name | role | duties) · inside a cell:
+     **Name** + <br> + `email` + *ID* -->
 
 ## 02 · Roster table
 
@@ -69,9 +74,11 @@ Computer Psycho Union · 1 January 2027
 ---
 
 <!-- _class: side -->
-<!-- 侧边图页：图片是纯右侧背景（右贴边、满高、不占布局空间），需在本页加 scoped
-     <style> 指定图片与 --side-gap（图片宽度 + 余量，窄图可用 360px）·
-     h3 黄标签块自动垂直均分 · h4 为左下描边 mega 字 -->
+<!-- Side-image page: the image is a pure right-side background (pinned right,
+     full height, no layout space); set it with the scoped style below, along
+     with --side-gap (image width + margin; 360px for narrow images) ·
+     ### tag blocks distribute vertically on their own · #### is the outlined
+     mega word bottom-left -->
 
 <style scoped>
 section {
@@ -95,8 +102,8 @@ One short sentence under the tag.
 ---
 
 <!-- _class: yellow -->
-<!-- 章节分隔页：h2 右上白色描边大字（全大写英文）· h3 白色大编号 ·
-     h4 黑色大标题 · p 底部署名行 -->
+<!-- Section divider: ## outlined word top-right (all caps) · ### big white
+     number · ## big black headline · p credit line at the bottom -->
 
 ## SECTION NAME
 
@@ -109,7 +116,8 @@ Credit line — Name One · Name Two · Name Three
 ---
 
 <!-- _class: activities -->
-<!-- 分组时间线页：h3 黄标签分组 + 列表，比普通页更紧凑，适合 3 组左右的清单 -->
+<!-- Grouped timeline: ### yellow group tags each with a list, packed tighter
+     than a regular page; good for around 3 groups -->
 
 ## 04 · Grouped timeline
 
@@ -129,7 +137,8 @@ Credit line — Name One · Name Two · Name Three
 ---
 
 <!-- _class: todo -->
-<!-- TODO 页：h3 标签块自动垂直均分，句后可接列表 -->
+<!-- TODO page: ### tag blocks spread out vertically on their own; a list can
+     follow the last sentence -->
 
 ## TODO
 
@@ -147,7 +156,7 @@ What to check, and when.
 ---
 
 <!-- _class: yellow -->
-<!-- 结束页：结构与章节分隔页相同 -->
+<!-- Closing page: same structure as the section divider -->
 
 ## THANK YOU
 

@@ -1,117 +1,77 @@
 # cpu-style-marp-template
 
-宁诺 CPU（Computer Psycho Union）的 Marp 幻灯片主题模板。
+The Marp slide theme for CPU (Computer Psycho Union) at UNNC.
 
-品牌视觉：CPU 黄 `#f7d447` + 墨黑 + 白 —— 瑞士海报风格，带蓝图虚线参考线、黄色标签块与描边 mega 大字。主题完整抽离自 2026-09-18 Dr Tesema 汇报用的 slides（经过逐页渲染验证）。
+To make slides, read [docs/usage.md](docs/usage.md); to let Claude do it, install `.claude/skills/cpu-marp/`. This README is about how the theme itself is put together, for whoever maintains it.
 
-## 仓库结构
+## Repository layout
 
 ```text
-themes/cpu.css    Marp 主题（全部样式，含 7 种页面类型）
-template.md       示例文档：每种页面一页，页首注释即使用说明
-assets/           示例素材（占位海报，替换为你自己的图）
-.vscode/          VS Code Marp 插件主题注册 + cSpell 词典
+themes/cpu.css                     the theme — all styles live in this one file
+template.md                        sample deck, one page per slide type, comments explain each
+docs/usage.md                      usage guide
+.claude/skills/cpu-marp/SKILL.md   agent skill
+assets/poster.png                  placeholder poster for the side-image demo
+.vscode/                           Marp extension theme registration + cSpell dictionary
+.editorconfig / .markdownlint.json documentation standards
 ```
 
-## 快速开始
+## How the theme is organized
 
-### VS Code
+`themes/cpu.css` is a standalone Marpit theme (first line `/* @theme cpu */`), in four layers from top to bottom:
 
-1. 安装 [Marp for VS Code](https://marketplace.visualstudio.com/items?itemName=marp-team.marp-vscode) 扩展；
-2. 用 VS Code 打开本仓库（`.vscode/settings.json` 已把 `themes/cpu.css` 注册为主题）；
-3. 新建 `slides.md`，frontmatter 写：
+1. `:root` variables. Colors and fonts are defined here and nowhere else;
+2. Base layer. Canvas size, guide lines, page numbers, plus default styles for paragraphs and inline elements. A standalone theme has no Marp default theme to fall back on, so all of this has to be written out;
+3. Shared elements. Things every page runs into: the `h2` title (yellow, dashed underline, a `</>` hanging in the top-right corner), `h3` yellow tags, square list markers, tables;
+4. Page classes. Layout rules under `section.<class>`, one class per slide type.
 
-   ```markdown
-   ---
-   marp: true
-   theme: cpu
-   paginate: true
-   ---
-   ```
+A few techniques worth knowing:
 
-4. 打开 Markdown 预览即为所见即所得。
+- Sparse pages (`side`, `todo`) use `display: flex; flex-direction: column` with `margin-top: auto` on the info blocks, so leftover space is split evenly between blocks instead of piling everything at the top and leaving a hole in the middle;
+- The mega words are hollow letters made with `-webkit-text-stroke` and `color: transparent` (cover `h3`, divider `h2`, side-image `h4`); the cover `h4` is solid yellow;
+- Side images go through `background`: pinned right, full height, original ratio, taking no layout space at all. The text column keeps clear via a `--side-gap` variable set by each slide's scoped style — the theme owns layout, the image belongs to the deck;
+- The org name in the cover's top-right sits on `section.lead h2::after`. Why not `section::after` — see the pitfalls below.
 
-### 命令行（marp CLI）
+## Design tokens
+
+| Variable | Value | Used for |
+| --- | --- | --- |
+| `--yellow` | `#f7d447` | Brand yellow: banner, tags, list markers, table heads, divider pages |
+| `--yellow-soft` | `#f9dd74` | Secondary yellow: nested list markers, agenda numbers |
+| `--ink` | `#111111` | Body text |
+| `--gray` | `#a3a3a3` | Secondary text (italics redefined as gray upright text) |
+| `--grid` | `#e3d5a8` | Dashed guide lines, the rule under titles |
+| `--sans` | Noto Sans SC, PingFang SC, … | Body |
+| `--display` | Archivo Black, Arial Black, … | Mega words, big numbers |
+| `--mono` | ui-monospace, SF Mono, … | Emails, page numbers, `</>` |
+
+Recolors and font swaps only touch `:root`.
+
+## Pitfalls we hit
+
+Worth knowing before changing the theme — each of these was tracked down in actual renders:
+
+1. Marpit reserves `section::before/::after` for pagination and strips literal `content` from `::after`. So text like the org name never paints if written into `section::after`; it has to ride on another pseudo-element — the theme uses `h2::after`. The old slides.md had its CSS inlined at the end of the file, and the empty rules left behind after content stripping took the page numbers and the cover banner down with it — they all vanished from PDF exports. Loading the theme as a file via `--theme-set` makes the whole problem go away.
+2. Any `section::after` rule without a `content` property kills page-number rendering. To restyle the number on a specific page, follow `section.yellow::after` and repeat the attr() content; the cover hides its number with `color: transparent`, again with content present.
+3. CLI exports referencing local images must pass `--allow-local-files`, otherwise the images are silently blocked by the security policy with nothing but a warning to tip you off.
+4. Fonts load from Google Fonts; offline you get the system fallbacks, with `Arial Black` standing in when `Archivo Black` is unavailable.
+
+## Adding a slide type
+
+Add a `section.<class>` rule block to `themes/cpu.css` — copy `todo` for a plain layout, `side` for one with an image. Any `::after` rule must carry content (see above). Then sync three places: an example page in `template.md`, a row in the `docs/usage.md` table, a row in the SKILL.md quick reference. Run the regression below before committing.
+
+## Regression checklist
 
 ```bash
-npm i -g @marp-team/marp-cli
-
-# 预览
-marp slides.md --preview --theme-set themes/cpu.css
-
-# 导出 PDF / PPTX / PNG
-marp slides.md --theme-set themes/cpu.css --allow-local-files -o slides.pdf
+marp template.md --theme-set themes/cpu.css --allow-local-files -o /tmp/tpl.pdf
 ```
 
-> `--allow-local-files` 在引用本地图片（如侧边图）时必须加上；VS Code 预览不受此限制。
+Check page by page (pixel sampling beats squinting at a clean export):
 
-最快的方式：直接复制 `template.md` 开始改。
-
-## 页面类型
-
-每页用 `<!-- _class: xxx -->` 指令选择类型；`template.md` 中每种都有一页带注释的示例。
-
-| class | 用途 | Markdown 结构 |
-| --- | --- | --- |
-| `lead` | 封面页 | `#` 主标题（黄色横幅内）· `##` 副标题 · 两个 `p`（出席人 + 日期）· `###`/`####` 右下 mega 字（描边 / 实心） |
-| `agenda` | 议程页 | `##` 标题 + 有序列表（≤9 项，编号 01–09 自动生成，首行高亮，斜体为灰色副文本） |
-| （无 class） | 普通内容页 | `##` 标题（自动带虚线与 `</>` 符号）+ 列表（黄色方块标记，嵌套列表更小） |
-| `roster` | 名单 / 表格页 | `##` + 表格（黄头黑框，首列固定 350px；单元格内 **名字** + `<br>` + `` `邮箱` `` + ` · ` + `*学号*`） |
-| `side` | 侧边图页 | `##` + `###` 标签块若干（自动垂直均分）+ `####` 左下 mega 字；图片用页内 scoped style 指定（见下） |
-| `yellow` | 章节分隔 / 结束页 | `##` 右上白描边大字 · `###` 白色大编号 · `####` 黑色大标题 · `p` 底部署名 |
-| `activities` | 分组时间线页 | `##` + 若干 `###` 分组标签 + 各自的列表（比普通页紧凑） |
-| `todo` | 待办页 | `##` + `###` 标签块（自动垂直均分），可接列表 |
-
-### 侧边图页（side）
-
-图片是**纯右侧背景**：右贴边、满高、原始比例、不占布局空间，文字列通过 `--side-gap` 避让。在幻灯片内加 scoped style：
-
-```markdown
-<!-- _class: side -->
-
-<style scoped>
-section {
-  --side-gap: 540px;
-  background: #ffffff url('assets/poster.png') no-repeat right center / auto 100%;
-}
-</style>
-
-## 03 · Side-image slide
-
-### TAG BLOCK ONE
-
-One short sentence under the tag.
-
-#### MEGA
-```
-
-`--side-gap` = 图片在 1280px 宽画布上占的宽度 + 余量。竖版海报（约 0.7 宽高比）满高时宽约 509px，用 540；窄易拉宝（约 0.44）宽约 320px，用 360。
-
-## 设计 token
-
-| token | 值 | 用途 |
-| --- | --- | --- |
-| `--yellow` | `#f7d447` | CPU 品牌黄：横幅、标签、方块标记、表格头、分隔页底色 |
-| `--yellow-soft` | `#f9dd74` | 次级黄：嵌套列表标记、议程编号 |
-| `--ink` | `#111111` | 正文黑 |
-| `--gray` | `#a3a3a3` | 灰色副文本（斜体 `*text*` 被重定义为灰色正体） |
-| `--grid` | `#e3d5a8` | 蓝图虚线（左右参考线、标题下分隔线） |
-| `--sans` | Noto Sans SC, PingFang SC, … | 正文字体 |
-| `--display` | Archivo Black, Arial Black, … | mega 大字 / 大编号 |
-| `--mono` | ui-monospace, SF Mono, … | 邮箱、页码、`</>` 符号 |
-
-改色只需替换 `:root` 中的变量；正文 `p`、列表、表格等基础样式全部在 `themes/cpu.css`。
-
-## 约定与注意
-
-- 全套**只有封面页用 `#`**（h1），其余页面从 `##` 起，标题层级不跳级；
-- 标题保持单行；不建议使用 emoji（视觉锚点由大编号、黄色标签承担）；
-- `*斜体*` 不是斜体，是灰色小号副文本——用于备注、脚注、议程副标题；
-- 议程编号格式为 `0` + 计数器，**最多 9 项**；
-- 图片引用本地文件时，CLI 导出必须加 `--allow-local-files`；
-- 字体经 Google Fonts 在线加载（Archivo Black + Noto Sans SC），离线环境自动回退到系统字体栈；
-- Markdown 规范：3 空格缩进嵌套列表、代码块声明语言——`.markdownlint.json` 已配好（MD013 关闭、MD033 白名单含 `style`/`br`）。
-
-## 从旧 slides.md 迁移
-
-把原文件末尾的 `<style>…</style>` 块整段删除，frontmatter 加 `theme: cpu`，`_class: recruit hf` / `recruit banner` 改为 `_class: side` 并按上文加 scoped style 指定图片即可，其余 Markdown 无需改动。
+- Cover: yellow band `#f7d447` on top, org name top-right, mega words bottom-right;
+- Agenda: first row highlighted yellow;
+- Roster: yellow table head;
+- Side-image page: image full height, text clear of it;
+- Both divider pages solid `#f7d447`;
+- Page number bottom-right from page 2 on, none on the cover;
+- `npx markdownlint-cli README.md docs/usage.md template.md` passes.
