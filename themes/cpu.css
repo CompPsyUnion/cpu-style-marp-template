@@ -540,3 +540,48 @@ section.yellow p {
   font-weight: 700;
   font-size: 20px;
 }
+
+/* ---------- code blocks (macOS window style) ---------- */
+
+pre {
+  position: relative;
+  margin: 16px 0 14px;
+  padding: 58px 26px 22px;
+  border: 2.5px solid var(--ink);
+  border-radius: 12px;
+  background: #fdfaf0;
+  box-shadow: 7px 7px 0 var(--yellow);
+  font-size: 16px;
+  line-height: 1.55;
+  overflow: hidden;
+}
+
+pre::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 40px;
+  border-bottom: 2px solid var(--ink);
+  border-radius: 9.5px 9.5px 0 0;
+  background-color: #f4ecd7;
+  background-image:
+    radial-gradient(circle at 26px 20px, #ff5f57 0 6px, transparent 6.5px),
+    radial-gradient(circle at 48px 20px, #febc2e 0 6px, transparent 6.5px),
+    radial-gradient(circle at 70px 20px, #28c840 0 6px, transparent 6.5px);
+}
+
+pre code {
+  display: block;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 1em;
+  font-weight: 500;
+  line-height: inherit;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  tab-size: 2;
+}
