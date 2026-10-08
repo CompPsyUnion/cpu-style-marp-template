@@ -585,3 +585,63 @@ pre code {
   overflow-wrap: break-word;
   tab-size: 2;
 }
+
+/* ---------- syntax highlighting ---------- */
+
+pre code .hljs-comment,
+pre code .hljs-quote {
+  color: #a39a7a;
+  font-style: italic;
+}
+
+pre code .hljs-keyword,
+pre code .hljs-selector-tag,
+pre code .hljs-literal,
+pre code .hljs-type {
+  color: #b8860b;
+  font-weight: 700;
+}
+
+pre code .hljs-string,
+pre code .hljs-regexp,
+pre code .hljs-addition,
+pre code .hljs-attribute,
+pre code .hljs-meta .hljs-string {
+  color: #2e7d32;
+}
+
+pre code .hljs-number,
+pre code .hljs-built_in,
+pre code .hljs-symbol,
+pre code .hljs-bullet {
+  color: #c2185b;
+}
+
+pre code .hljs-title,
+pre code .hljs-section,
+pre code .hljs-name,
+pre code .hljs-selector-id,
+pre code .hljs-selector-class {
+  color: #1565c0;
+  font-weight: 700;
+}
+
+pre code .hljs-variable,
+pre code .hljs-template-variable,
+pre code .hljs-params,
+pre code .hljs-attr {
+  color: #5d4037;
+}
+
+pre code .hljs-deletion {
+  color: #c62828;
+  background: #fdecea;
+}
+
+pre code .hljs-emphasis {
+  font-style: italic;
+}
+
+pre code .hljs-strong {
+  font-weight: 700;
+}
