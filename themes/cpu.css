@@ -57,11 +57,16 @@ section::after {
   position: absolute;
   right: 76px;
   bottom: 32px;
+  padding: 2px 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(2px);
   font-family: var(--mono);
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.08em;
   color: #c9b96c;
+  z-index: 10;
 }
 
 h1 {
@@ -539,4 +544,109 @@ section.yellow p {
   color: var(--ink);
   font-weight: 700;
   font-size: 20px;
+}
+
+/* ---------- code blocks (macOS window style) ---------- */
+
+pre {
+  position: relative;
+  margin: 16px 0 14px;
+  padding: 58px 26px 22px;
+  border: 2.5px solid var(--ink);
+  border-radius: 12px;
+  background: #fdfaf0;
+  box-shadow: 7px 7px 0 var(--yellow);
+  font-size: 20px;
+  line-height: 1.55;
+  overflow: hidden;
+}
+
+pre::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 40px;
+  border-bottom: 2px solid var(--ink);
+  border-radius: 9.5px 9.5px 0 0;
+  background-color: #f4ecd7;
+  background-image:
+    radial-gradient(circle at 26px 20px, #ff5f57 0 6px, transparent 6.5px),
+    radial-gradient(circle at 48px 20px, #febc2e 0 6px, transparent 6.5px),
+    radial-gradient(circle at 70px 20px, #28c840 0 6px, transparent 6.5px);
+}
+
+pre code {
+  display: block;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 1em;
+  font-weight: 500;
+  line-height: inherit;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  tab-size: 2;
+}
+
+/* ---------- syntax highlighting ---------- */
+
+pre code .hljs-comment,
+pre code .hljs-quote {
+  color: #a39a7a;
+  font-style: italic;
+}
+
+pre code .hljs-keyword,
+pre code .hljs-selector-tag,
+pre code .hljs-literal,
+pre code .hljs-type {
+  color: #b8860b;
+  font-weight: 700;
+}
+
+pre code .hljs-string,
+pre code .hljs-regexp,
+pre code .hljs-addition,
+pre code .hljs-attribute,
+pre code .hljs-meta .hljs-string {
+  color: #2e7d32;
+}
+
+pre code .hljs-number,
+pre code .hljs-built_in,
+pre code .hljs-symbol,
+pre code .hljs-bullet {
+  color: #c2185b;
+}
+
+pre code .hljs-title,
+pre code .hljs-section,
+pre code .hljs-name,
+pre code .hljs-selector-id,
+pre code .hljs-selector-class {
+  color: #1565c0;
+  font-weight: 700;
+}
+
+pre code .hljs-variable,
+pre code .hljs-template-variable,
+pre code .hljs-params,
+pre code .hljs-attr {
+  color: #5d4037;
+}
+
+pre code .hljs-deletion {
+  color: #c62828;
+  background: #fdecea;
+}
+
+pre code .hljs-emphasis {
+  font-style: italic;
+}
+
+pre code .hljs-strong {
+  font-weight: 700;
 }
