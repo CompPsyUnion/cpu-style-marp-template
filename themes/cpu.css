@@ -57,11 +57,16 @@ section::after {
   position: absolute;
   right: 76px;
   bottom: 32px;
+  padding: 2px 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(2px);
   font-family: var(--mono);
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.08em;
   color: #c9b96c;
+  z-index: 10;
 }
 
 h1 {
