@@ -12,8 +12,8 @@
       "tr",
       "td",
       "br",
-      "kbd",
-      "style"
+      "div",
+      "kbd"
     ]
   }
 }

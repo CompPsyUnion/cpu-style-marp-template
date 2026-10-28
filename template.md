@@ -9,7 +9,9 @@ paginate: true
    that page is written (it doubles as a presenter note).
    Usage guide: docs/usage.md. Keep theme: cpu in the frontmatter.
    Only the cover uses h1; every other page starts at h2. Titles stay on one
-   line. No emoji.
+   line. No emoji. Images go in with Marp's own sizing directives —
+   ![height:720px](img) pinned by the side class, ![w:300](img) inline —
+   with .columns divs for side-by-side layouts, never other HTML.
 -->
 
 <!-- _class: lead -->
@@ -74,18 +76,13 @@ Computer Psycho Union · 1 January 2027
 ---
 
 <!-- _class: side -->
-<!-- Side-image page: the image is a pure right-side background (pinned right,
-     full height, no layout space); set it with the scoped style below, along
-     with --side-gap (image width + margin; 360px for narrow images) ·
-     ### tag blocks distribute vertically on their own · #### is the outlined
-     mega word bottom-left -->
+<!-- Side-image page: the image is a plain ![height:720px](image) line, put
+     anywhere on the page — the theme pins it to the right edge at full
+     height and keeps the text clear; a landscape image can use width:
+     instead · ### tag blocks distribute vertically on their own · #### is
+     the outlined mega word bottom-left -->
 
-<style scoped>
-section {
-  --side-gap: 540px;
-  background: #ffffff url('assets/poster.png') no-repeat right center / auto 100%;
-}
-</style>
+![height:720px](assets/poster.png)
 
 ## 03 · Side-image slide
 
@@ -101,13 +98,38 @@ One short sentence under the tag.
 
 ---
 
+<!-- Regular content page with images: ![w:300]/![h:400] size an image
+     (width:/height: long forms work the same); standing alone in its
+     paragraph it is centered and framed automatically · a .columns block
+     with two .column divs puts text and an image side by side -->
+
+## 04 · Inline images
+
+<div class="columns">
+<div class="column">
+
+- **Standalone image** — centered, framed, sized by its directive
+- **Side by side** — the `.columns` block lays text next to an image
+
+</div>
+<div class="column">
+
+![w:300](assets/poster.png)
+
+</div>
+</div>
+
+*Caption in gray — sizing comes from the directive, the frame from the theme.*
+
+---
+
 <!-- _class: yellow -->
 <!-- Section divider: ## outlined word top-right (all caps) · ### big white
      number · ## big black headline · p credit line at the bottom -->
 
 ## SECTION NAME
 
-### 04
+### 05
 
 #### Section Headline
 
@@ -119,7 +141,7 @@ Credit line — Name One · Name Two · Name Three
 <!-- Grouped timeline: ### yellow group tags each with a list, packed tighter
      than a regular page; good for around 3 groups -->
 
-## 04 · Grouped timeline
+## 05 · Grouped timeline
 
 ### AUTUMN
 
