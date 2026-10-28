@@ -28,7 +28,7 @@ marp slides.md --theme-set themes/cpu.css --allow-local-files -o slides.pdf
 }
 ```
 
-If your deck references local images (the side-image pages do), exports must pass `--allow-local-files` or the images won't come through. The VS Code preview doesn't have this restriction.
+If your deck references local images (the image pages do), exports must pass `--allow-local-files` or the images won't come through. The VS Code preview doesn't have this restriction.
 
 ## Slide types
 
@@ -40,25 +40,53 @@ Pick a layout with `<!-- _class: xxx -->` at the top of the page. Eight of them:
 | `agenda` | Agenda | `##` plus an ordered list; numbers from 01 are generated, first row gets a full highlight |
 | no class | Regular content | `##` plus a list; the title brings its own rule and `</>` |
 | `roster` | People tables | `##` plus a table; first column is fixed at 350px, just right for name + email + student ID |
-| `side` | Side image | `##` plus a few `###` tag blocks with one sentence each, `####` is the mega word bottom-left; the image works differently, see below |
+| `side` | Side image | `##` plus a few `###` tag blocks with one sentence each, `####` is the mega word bottom-left; the image is a `![height:720px]` line anywhere on the page — see [Images](#images) |
 | `yellow` | Section dividers, closing | `##` outlined word, `###` number, `####` headline, last line a credit |
 | `activities` | Grouped lists | `##` plus several `###` group tags, each with its own list, packed tighter than a regular page |
 | `todo` | Action items | `##` plus `###` tag blocks; blocks spread out automatically |
 
-### Side images
+## Images
 
-The image is a pure background pinned to the right edge: full height, original ratio, no layout space taken. Text keeps clear through `--side-gap`, set by a scoped style on the page:
+Images are ordinary Markdown images sized with Marp's directives — `![w:300](img)`, `![h:400](img)` (long forms `width:` / `height:`) — never HTML `<img>` tags or scoped styles. Sizing comes from the directive, layout from the theme, and an inline image renders the same in the CLI, in PDF and in the VS Code preview.
 
-```html
-<style scoped>
-section {
-  --side-gap: 540px;
-  background: #ffffff url('assets/poster.png') no-repeat right center / auto 100%;
-}
-</style>
+**Side image** — on a `_class: side` page, one line anywhere on the page:
+
+```markdown
+![height:720px](assets/poster.png)
 ```
 
-`--side-gap` is the image width plus a little margin: a regular portrait poster is about 509px wide at full height, so use 540; a narrow roll-up banner is about 320px, so use 360.
+The theme pins the image to the right edge at full slide height and keeps the text clear of it; a landscape image can take `width:` instead. No percentages to tune, nothing can overlap.
+
+**Inline image** — on any content page:
+
+```markdown
+![w:300](assets/poster.png)
+
+*caption line in gray*
+```
+
+Alone in its own paragraph the image is centered and framed by the theme; inside a sentence it just flows with the text.
+
+**Text beside an image** — a `.columns` block splits the area in two:
+
+```html
+<div class="columns">
+<div class="column">
+
+- **Left column** — bullets, a sentence or two
+
+</div>
+<div class="column">
+
+![w:300](assets/poster.png)
+
+</div>
+</div>
+```
+
+The columns share the width equally; the image can go in either one.
+
+Skip `![bg]` background images: they render through Marp's background layer, which the VS Code preview and CLI exports draw differently — we have seen the split variant squeeze the text into a narrow column in one and not the other — and on `_class: yellow` pages the photo vanishes outright. Every layout above works without it.
 
 ## Writing conventions
 
@@ -71,7 +99,7 @@ section {
 
 ## Migrating an old slides.md
 
-Delete the whole `<style>…</style>` block at the end of the file, add `theme: cpu` to the frontmatter, replace `_class: recruit hf` and `recruit banner` with `_class: side`, point the scoped style at your image as shown above, and leave the rest of the content alone.
+Delete the whole `<style>…</style>` block at the end of the file, add `theme: cpu` to the frontmatter, replace `_class: recruit hf` and `recruit banner` with `_class: side`, put `![height:720px](your-poster.png)` on the page (see [Images](#images)), and leave the rest of the content alone.
 
 ## Letting Claude write it
 

@@ -221,6 +221,45 @@ tr:nth-child(even) td {
   background: #fdf6dd;
 }
 
+/* ---------- inline images ---------- */
+
+/* ![width:...]() / ![height:...]() inline images stay inside the column and
+   on the slide whatever their natural size */
+img {
+  max-width: 100%;
+  max-height: 430px;
+  vertical-align: middle;
+}
+
+/* an image standing alone in its paragraph is centered and gets the brand
+   frame shared with code blocks and tables */
+p > img:only-child {
+  display: block;
+  margin: 14px auto 4px;
+  border: 2.5px solid var(--ink);
+  box-shadow: 7px 7px 0 var(--yellow);
+}
+
+/* ---------- two-column blocks ---------- */
+
+/* <div class="columns"> with two <div class="column"> children puts text and
+   an image (or two text blocks) side by side */
+div.columns {
+  display: flex;
+  gap: 48px;
+  align-items: center;
+  margin: 16px 0;
+}
+
+div.columns > div.column {
+  flex: 1;
+  min-width: 0;
+}
+
+div.columns > div.column > :first-child {
+  margin-top: 0;
+}
+
 /* ---------- roster table (name | role | duties) ---------- */
 
 section.roster table {
@@ -243,22 +282,47 @@ section.roster td {
 
 /* ---------- side-image slide ---------- */
 /*
- * Layout only — the image itself is a pure right-side background set with a
- * scoped <style> on the slide (see template.md / README.md):
- *
- *   section {
- *     --side-gap: 540px;    (= image width + margin; 360px for narrow images)
- *     background: #ffffff url('assets/poster.png') no-repeat right center / auto 100%;
- *   }
- *
+ * The image is an ordinary inline image — ![height:720px](assets/poster.png)
+ * — written anywhere on the page; the theme pins it to the right edge at
+ * full slide height (a landscape image can take width: instead) and keeps
+ * the text blocks clear of it. No background layer involved: an inline image
+ * renders the same in every pipeline (CLI, PDF, VS Code preview).
  * h3 tag blocks distribute evenly; h4 is the outlined mega word, bottom-left.
  */
 
 section.side {
   display: flex;
   flex-direction: column;
-  padding-right: var(--side-gap, 540px);
   padding-bottom: 200px;
+}
+
+/* text column stays clear of the pinned image whatever its size (h2 gets
+   less: its max-width is content-box, and it carries 120px right padding) */
+section.side h2 {
+  max-width: 500px;
+}
+
+section.side h3,
+section.side p {
+  max-width: 600px;
+}
+
+/* the pinned side image: right edge, full height; the height (or width)
+   directive decides its rendered size, the caps below catch directive-less
+   images; overrides the inline-image frame — a poster frames itself */
+section.side img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  max-height: 100%;
+  max-width: 45%;
+  margin: 0;
+  border: none;
+  box-shadow: none;
+}
+
+section.side p > img:only-child {
+  margin: 0;
 }
 
 section.side h2 {
