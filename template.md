@@ -2,6 +2,7 @@
 marp: true
 theme: cpu
 paginate: true
+html: true
 ---
 
 <!--
@@ -13,6 +14,70 @@ paginate: true
    ![height:720px](img) pinned by the side class, ![w:300](img) inline —
    with .columns divs for side-by-side layouts, never other HTML.
 -->
+
+<!-- Mermaid loader: turns fenced ```mermaid blocks into diagrams in the
+     same window card as code blocks, in CPU brand colors. Diagrams render
+     in CLI exports (PNG/PDF), HTML exports and `marp --preview` — every
+     path that runs scripts; the VS Code preview strips document scripts
+     (its own security policy) and shows the source card instead. Delete
+     this block (and the demo page) for decks without diagrams. -->
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  themeVariables: {
+    fontFamily: "'Noto Sans SC','PingFang SC','Hiragino Sans',sans-serif",
+    fontSize: '24px',
+    primaryColor: '#fdfaf0',
+    primaryBorderColor: '#111111',
+    primaryTextColor: '#111111',
+    secondaryColor: '#f9dd74',
+    secondaryBorderColor: '#111111',
+    secondaryTextColor: '#111111',
+    tertiaryColor: '#fdf6dd',
+    tertiaryBorderColor: '#e3d5a8',
+    tertiaryTextColor: '#111111',
+    lineColor: '#111111',
+    textColor: '#111111',
+    edgeLabelBackground: '#f9dd74',
+    clusterBkg: '#fdf6dd',
+    clusterBorder: '#e3d5a8',
+    actorBkg: '#fdfaf0',
+    actorBorder: '#111111',
+    actorTextColor: '#111111',
+    actorLineColor: '#a3a3a3',
+    signalColor: '#111111',
+    signalTextColor: '#111111',
+    noteBkgColor: '#f9dd74',
+    noteBorderColor: '#111111',
+    activationBkgColor: '#f9dd74',
+    activationBorderColor: '#111111',
+    sequenceNumberColor: '#111111',
+    taskBkgColor: '#f9dd74',
+    taskBorderColor: '#111111',
+    taskTextColor: '#111111',
+    todayLineColor: '#111111',
+    gridColor: '#a3a3a3'
+  }
+});
+const renderMermaid = () => {
+  document.querySelectorAll('pre.mermaid, pre > code.language-mermaid').forEach((el) => {
+    const pre = el.tagName === 'PRE' ? el : el.parentElement;
+    const container = document.createElement('div');
+    container.className = 'mermaid';
+    container.textContent = pre.textContent.trim();
+    pre.replaceWith(container);
+  });
+  mermaid.run();
+};
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', renderMermaid);
+} else {
+  renderMermaid();
+}
+</script>
 
 <!-- _class: lead -->
 <!-- Cover: # main title (inside the yellow band) · ## subtitle · p speakers
@@ -99,16 +164,17 @@ One short sentence under the tag.
 ---
 
 <!-- Regular content page with images: ![w:300]/![h:400] size an image
-     (width:/height: long forms work the same); standing alone in its
-     paragraph it is centered and framed automatically · a .columns block
-     with two .column divs puts text and an image side by side -->
+     (width:/height: long forms work the same) — no frame, no shrinking, it
+     simply overflows the slide edge if too big · alone in its paragraph it
+     is centered horizontally; in a .columns block it is centered
+     vertically · the .columns block puts text and an image side by side -->
 
 ## 04 · Inline images
 
 <div class="columns">
 <div class="column">
 
-- **Standalone image** — centered, framed, sized by its directive
+- **Standalone image** — centered below text, sized by its directive
 - **Side by side** — the `.columns` block lays text next to an image
 
 </div>
@@ -119,7 +185,24 @@ One short sentence under the tag.
 </div>
 </div>
 
-*Caption in gray — sizing comes from the directive, the frame from the theme.*
+*Caption in gray — sizing comes from the directive, layout from the theme.*
+
+---
+
+<!-- Mermaid diagram: a fenced ```mermaid block (the loader script at the
+     top of the file renders it) · same window card as code blocks, CPU
+     brand colors come from the initialize() call · an unrendered diagram
+     falls back to the source code card -->
+
+## 05 · Mermaid diagram
+
+```mermaid
+graph LR
+  A[Idea] --> B[Draft]
+  B --> C{Review}
+  C -->|ok| D[Ship]
+  C -->|redo| B
+```
 
 ---
 
@@ -129,7 +212,7 @@ One short sentence under the tag.
 
 ## SECTION NAME
 
-### 05
+### 06
 
 #### Section Headline
 
@@ -141,7 +224,7 @@ Credit line — Name One · Name Two · Name Three
 <!-- Grouped timeline: ### yellow group tags each with a list, packed tighter
      than a regular page; good for around 3 groups -->
 
-## 05 · Grouped timeline
+## 06 · Grouped timeline
 
 ### AUTUMN
 

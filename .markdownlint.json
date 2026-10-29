@@ -3,6 +3,7 @@
     "indent": 3
   },
   "MD013": false,
+  "MD041": false,
   "MD033": {
     "allowed_elements": [
       "details",
@@ -13,7 +14,8 @@
       "td",
       "br",
       "div",
-      "kbd"
+      "kbd",
+      "script"
     ]
   }
 }

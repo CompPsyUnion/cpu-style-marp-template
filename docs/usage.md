@@ -9,8 +9,11 @@ Every deck starts with this frontmatter:
 marp: true
 theme: cpu
 paginate: true
+html: true
 ---
 ```
+
+`html: true` keeps raw HTML alive in every pipeline — the `<script>` loader, `<pre class="mermaid">` blocks, the `.columns` divs; the VS Code extension disables raw HTML unless the file asks for it.
 
 ## Where to write
 
@@ -65,7 +68,7 @@ The theme pins the image to the right edge at full slide height and keeps the te
 *caption line in gray*
 ```
 
-Alone in its own paragraph the image is centered and framed by the theme; inside a sentence it just flows with the text.
+Alone in its own paragraph (typically below the text) the image is centered horizontally; inside a sentence it just flows with the text. Images carry no frame and are never shrunk — the directive size is exact, and an image that runs past the right edge or the bottom of the slide simply overflows.
 
 **Text beside an image** — a `.columns` block splits the area in two:
 
@@ -84,7 +87,24 @@ Alone in its own paragraph the image is centered and framed by the theme; inside
 </div>
 ```
 
-The columns share the width equally; the image can go in either one.
+The columns share the width equally and their contents are centered vertically; the image can go in either one.
+
+## Diagrams (mermaid)
+
+Keep the loader — the `<script>` block at the top of `template.md`, carried along when you copy the file — and write diagrams as a fenced block:
+
+````markdown
+```mermaid
+graph LR
+  A[Idea] --> B[Draft]
+  B --> C{Review}
+  C -->|ok| D[Ship]
+```
+````
+
+The loader pulls mermaid from jsDelivr, renders the diagram in the CPU palette (the colors live in the `initialize()` call — edit them there), and the theme draws it in the same window card as code blocks. The raw `<pre class="mermaid">` form used by the older weekly-session decks works too — the loader picks up either.
+
+Diagrams render in CLI exports (PNG/PDF), in HTML exports, and — the comfortable way while writing — in `marp slides.md --preview --theme-set themes/cpu.css --allow-local-files`, a live-reload server opened in your browser. The VS Code preview strips document scripts (its own security policy; the weekly-session decks solve this the same way — their committed `README_Marp.html` is meant to be opened in a browser), so there the block stays its source card. Offline, point the `src` at a local `mermaid.min.js` and export with `--allow-local-files`.
 
 Skip `![bg]` background images: they render through Marp's background layer, which the VS Code preview and CLI exports draw differently — we have seen the split variant squeeze the text into a narrow column in one and not the other — and on `_class: yellow` pages the photo vanishes outright. Every layout above works without it.
 
